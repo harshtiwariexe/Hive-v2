@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuthActions } from "@convex-dev/auth/react";
 import {
   Card,
   CardContent,
@@ -21,6 +22,7 @@ interface SignInCardProp {
 }
 
 export function SignInCard({ setState }: SignInCardProp) {
+  const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,7 +64,7 @@ export function SignInCard({ setState }: SignInCardProp) {
         <div className="flex flex-col gap-y-2.5">
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => void signIn("google")}
             className="w-full relative"
             variant="outline"
             size="lg"
@@ -72,7 +74,7 @@ export function SignInCard({ setState }: SignInCardProp) {
           </Button>
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => void signIn("github")}
             className="w-full relative"
             variant="outline"
             size="lg"
