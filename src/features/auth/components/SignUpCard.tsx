@@ -1,48 +1,69 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuthActions } from "@convex-dev/auth/react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+// import { Input } from "@/components/ui/input";
+// import { Separator } from "@/components/ui/separator";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa6";
 import { SignInFlow } from "../SignInFlow";
+// import { TriangleAlert } from "lucide-react";
 
-interface SignInCardProp {
+interface SignUpCardProp {
   setState: (state: SignInFlow) => void;
 }
 
-export function SignUpCard({ setState }: SignInCardProp) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export function SignUpCard({ setState }: SignUpCardProp) {
+  const { signIn } = useAuthActions();
+
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
+
+  // const handlePassword = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setPending(true);
+
+  //   void signIn("password", { email, password, flow: "signUp" })
+  //     .catch(() => {
+  //       setError("Invalid email or password");
+  //     })
+  //     .finally(() => {
+  //       setPending(false);
+  //     });
+  // };
+
+  const handleProvider = (value: "google" | "github") => {
+    setPending(true);
+
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle>Register to continue</CardTitle>
-        <CardDescription>Use your email or another service</CardDescription>
+        <CardTitle>Sign up to continue</CardTitle>
+        <CardDescription>Use your Google Account or Github</CardDescription>
       </CardHeader>
+      {/* {!!error && (
+        <div className="bg-destructive/10 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
+        </div>
+      )} */}
       <CardContent className="px-0 pb-0 space-y-5">
-        <form action="" className="space-y-2.5">
+        {/* <form action="" onSubmit={handlePassword} className="space-y-2.5">
           <Input
-            disabled={false}
-            placeholder="Name"
-            type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            required
-            value={name}
-          />
-          <Input
-            disabled={false}
+            disabled={pending}
             placeholder="Email"
             type="email"
             onChange={(e) => {
@@ -52,7 +73,7 @@ export function SignUpCard({ setState }: SignInCardProp) {
             value={email}
           />
           <Input
-            disabled={false}
+            disabled={pending}
             placeholder="Password"
             type="password"
             onChange={(e) => {
@@ -61,27 +82,27 @@ export function SignUpCard({ setState }: SignInCardProp) {
             required
             value={password}
           />
-          <Button className="w-full" type="submit" size="lg" disabled={false}>
+          <Button className="w-full" type="submit" size="lg" disabled={pending}>
             Continue
           </Button>
         </form>
 
-        <Separator />
+         */}
 
-        <div className="flex flex-col gap-y-3">
+        <div className="flex flex-col gap-y-2.5">
           <Button
-            disabled={false}
-            onClick={() => {}}
+            disabled={pending}
+            onClick={() => void handleProvider("google")}
             className="w-full relative"
             variant="outline"
             size="lg"
           >
-            <FcGoogle className="size-5 absolute left-2.5 " />
+            <FcGoogle className="size=5 absolute left-2.5 " />
             Continue with Google
           </Button>
           <Button
-            disabled={false}
-            onClick={() => {}}
+            disabled={pending}
+            onClick={() => void handleProvider("github")}
             className="w-full relative"
             variant="outline"
             size="lg"
@@ -93,7 +114,7 @@ export function SignUpCard({ setState }: SignInCardProp) {
         <p className="text-xs text-muted-foreground">
           Already have an account?{" "}
           <span
-            onClick={() => setState("signIn")}
+            onClick={() => setState && setState("signIn")}
             className="text-sky-700 hover:underline cursor-pointer"
           >
             Sign In
