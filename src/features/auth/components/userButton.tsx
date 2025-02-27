@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // import { Button } from "@/components/ui/button";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useCurrentUser } from "../api/useCurrentUser";
 import { Loader2, LogOut } from "lucide-react";
 
 export const UserButton = () => {
